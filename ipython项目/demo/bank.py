@@ -13,5 +13,3 @@ class bank:
     def code(self,num):
         num=1 
         print(self.name,"计算结果为：",num)
-
-
