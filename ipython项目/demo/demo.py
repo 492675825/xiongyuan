@@ -1,24 +1,21 @@
-import pandas as pd 
-import numpy as np
+class A:
+    def __init__(self,name):
+        self._name=name;
+    
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self,name):
+        self._name=name;
 
-data=list([[1,2,3],[4,4,6],[7,8,9],[10,11,12]]);
-data=pd.DataFrame(data);
-data.columns=["name","age","class"];
 
-def join(df_col_name):
-    df_list=[]
-    for col in df_col_name:
-        df_list.append(str(col))
-    df_join_list=",".join(df_list)
-    return df_join_list
+def say_hello(obj):
+    print('你好 %s'%obj.name)
 
-agg_dict={
-    "name":join(data["name"]),
-    "age":join(data["age"]),
-    "class":join(data["class"])
-}
+b=A("孙悟空");
+say_hello(b);
 
-user_log_path=data.groupby("name").agg(agg_dict)
 
-print(data)
-print(user_log_path)
+
