@@ -50,7 +50,7 @@ class bank:
         self.__balance=self.__balance-num;
         print("取款成功，当前卡上余额：",self.__balance,"元");
 
-    def xiugai(self):
+    def mima(self):
         pass
 
 
