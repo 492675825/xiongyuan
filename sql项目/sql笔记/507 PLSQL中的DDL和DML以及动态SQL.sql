@@ -1,0 +1,169 @@
+
+DML ：可以直接在begin END; 中执行
+DQL : 以隐士游标方式在begin  END; 中执行
+DDL : 不能直接在begin  END; 中执行
+
+
+
+
+1.PL/SQL 中的DML和DDL语言
+
+	-- DML
+	CREATE TABLE EMP_01 AS SELECT * FROM EMP;
+
+	BEGIN
+	   DELETE FROM EMP_01 WHERE DEPTNO=10;
+	   UPDATE EMP_01 SET SAL=8888 WHERE DEPTNO=20;
+	   INSERT INTO EMP_01(EMPNO,DEPTNO) VALUES(1111,40);
+	   COMMIT;
+	END;
+	SELECT * FROM EMP_01;
+  
+	-- DDL
+	BEGIN
+	   -- CREATE TABLE EMP_02 AS SELECT * FROM EMP;   -- DDL不能直接在PL/SQL块中使用
+	   -- TRUNCATE TABLE EMP_01;  
+	   -- ALTER TABLE EMP_01 ADD CT DATE;
+	   DROP TABLE EMP_01;
+	END;
+	
+	
+	
+	
+2.动态SQL	  
+	在PL/SQL程序开发中,可以使用DML语句和事务控制语句,但是还有很多语句（比如DDL语句）不能直接在PL/SQL中执行。
+	这些语句可以使用动态SQL来实现。
+  
+	语法格式：动态SQL
+	EXECUTE IMMEDIATE 动态语句字符串
+	[INTO 变量列表]
+	[USING 参数列表]
+	
+	-- 例1
+	BEGIN
+	  EXECUTE IMMEDIATE 'CREATE TABLE YYY AS SELECT * FROM EMP'；
+	END;
+	或者
+	DECLARE
+	  V_SQL VARCHAR2(100) :='CREATE TABLE YYY AS SELECT * FROM EMP' ；
+	BEGIN
+	  EXECUTE IMMEDIATE V_SQL;
+	END;
+	
+
+
+	-- 用参数传入
+	DECLARE
+	  V_EMPNO  EMP.EMPNO%TYPE := &输入员工编号;
+	  V_DEPTNO EMP.DEPTNO%TYPE := &输入部门编号;
+	  V_SAL    EMP.SAL%TYPE;
+	BEGIN
+	  -- SELECT sal INTO v_sal FROM emp WHERE empno=V_EMPNO AND deptno=V_DEPTNO;
+	  EXECUTE IMMEDIATE 'SELECT SAL FROM EMP WHERE EMPNO = :参数1 AND deptno= :参数2'    -- :参数1和:参数2为参数名,用后面using的值替换
+		 INTO V_SAL                 -- 查询的结果写入变量
+		USING V_EMPNO, V_DEPTNO;    -- 替换动态sql中的参数:参数1和:参数2
+	  DBMS_OUTPUT.PUT_LINE(V_SAL);
+	END;
+	
+	
+	
+
+	-- 关于 DBMS_OUTPUT.PUT 和 DBMS_OUTPUT.PUT_LINE
+	BEGIN
+	  DBMS_OUTPUT.PUT('0710');    -- 不换行（后面必须有DBMS_OUTPUT.PUT_LINE,才能打印）
+	  DBMS_OUTPUT.PUT_LINE('BI');
+	  DBMS_OUTPUT.PUT_LINE('HAHAHA');
+	END;
+	-- 
+	BEGIN
+	  DBMS_OUTPUT.PUT('0710');
+	  DBMS_OUTPUT.PUT('BI'); 
+	  DBMS_OUTPUT.PUT_LINE('');
+	END;
+
+
+	-- 双重循环
+	BEGIN
+	  FOR X IN 1..3 LOOP
+		FOR Y IN 4..6 LOOP
+			DBMS_OUTPUT.PUT_LINE(X||'*'||Y||'='||X*Y); 
+		END LOOP;
+	  END LOOP;
+	END;  
+		  
+		 
+
+
+	-- 插入数据转义操作
+	CREATE TABLE T_TMP_1 (
+	SNO NUMBER,
+	SNAME VARCHAR(20)
+	);
+	-- INSERT INTO T_TMP_1 VALUES(1, 'A''LIN');
+	SELECT * FROM T_TMP_1;
+	-- 转义
+	DECLARE 
+	  V_SQL VARCHAR2(100) := 'INSERT INTO T_TMP_1 VALUES(1, ''A''''LIN'')';
+	BEGIN
+	  DBMS_OUTPUT.PUT_LINE(V_SQL);
+	  EXECUTE IMMEDIATE V_SQL;
+	  COMMIT;
+	END;
+	
+
+
+		 
+	
+	练习：打印当前用户下面所有的表名称及每张表其对应的总行数
+	SELECT table_name FROM user_tables;
+
+	DECLARE
+    CURSOR C_TABLE IS
+    SELECT TABLE_NAME 
+    FROM USER_TABLES;
+    
+    A number(10);
+  		BEGIN
+    	FOR X IN C_TABLE LOOP
+      		A:=SELECT COUNT(*) FROM X.TABLE_NAME;
+      		DBMS_OUTPUT.PUT(A);
+      		DBMS_OUTPUT.PUT_LINE(X.TABLE_NAME);
+      END LOOP;
+  END;
+
+
+
+  	SELECT table_name FROM user_tables; 
+  
+	DECLARE
+	PART_TAL  VARCHAR2(400);
+	TAL_COUNT NUMBER(10);
+	CURSOR C_TAL IS
+		SELECT TABLE_NAME FROM USER_TABLES; --游标把所有表数据拿出来
+	BEGIN
+	FOR V_TAL IN C_TAL LOOP
+		--遍历每个表
+		PART_TAL := 'select count(1) from ' || V_TAL.TABLE_NAME; --每个表行数的查询语句
+		EXECUTE IMMEDIATE PART_TAL
+		INTO TAL_COUNT; --运行并写入变量
+		DBMS_OUTPUT.PUT_LINE('表名：' || V_TAL.TABLE_NAME || '，行数：' ||
+							TO_CHAR(TAL_COUNT));
+	END LOOP;
+	END;
+
+  	SELECT TABLE_NAME, NUM_ROWS FROM USER_TABLES;
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
