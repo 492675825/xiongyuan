@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue基础</title>
+</head>
+<body>
+<!--第一部分写一个div-->
+    <div id="app" class="app02">
+        {{ message }}
+        {{ profile.name }} {{ profile.mobile }}
+        {{ profile.age + "岁" }}
+        <ul>
+            <li>{{ campus[0] }}</li>
+            <li>{{ campus[1] }}</li>
+            <li>{{ campus[2] }}</li>
+        </ul>
+    </div>
+    <div id = "app01">
+        <h2 v-text="context"></h2>
+        <h2 v-text="detial"></h2>
+    </div>
+    <div id = "app02">
+        <p v-html="link"></p>
+    </div>
+    <div id ="app03">
+        <input type="button" value="v-on指令" v-on:click="doIt">
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!--第二部分写一个js的示例-->
+    <script>
+    var app = new Vue({
+        //el是挂载点，用来指定页面显示的内容
+        //#app指的是对应的id为app的id
+        el:"#app",
+        data:{
+            message:"我是小熊",
+            profile:{
+                name:"菜鸟程序员",
+                mobile: "10086",
+                age:"18"
+            },
+            campus:["北京","上海","广州","深圳"]
+        }
+    })
+
+    var app01 = new Vue({
+        el:"#app01",
+        data:{
+            context:"我还是小熊",
+            detial:"我是菜鸡"
+        }
+    })
+
+    var app02 = new Vue({
+        el:"#app02",
+        data:{
+            link:"<a href='http://www.baidu.com'>百度搜索</a>"
+        }
+    })
+
+    var app03 = new Vue({
+        el:"#app03",
+        methods:{
+            doIt:function () {
+                alert("做it")
+            }
+        }
+    })
+    </script>
+</body>
+</html>
