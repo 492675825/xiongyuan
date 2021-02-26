@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <link href="../static/dist/css/component-chosen.css" rel="stylesheet">
+
+    {#    姓名设置开始#}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">姓名 <span class="caret"></span></button>
+                </div><!-- /btn-group -->
+
+                <div class="col-xs-12 col-md-4 mb-5">
+                    <select id="single" class="form-control form-control-chosen" data-placeholder="Please select...">
+                        <option></option>
+                        {% for name in user_tbl %}
+                            <option>{{ name.ename }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+    {#    姓名设置结束#}
+
+    {#    工号设置开始#}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">工号 <span class="caret"></span></button>
+                </div><!-- /btn-group -->
+
+                <div class="col-xs-12 col-md-4 mb-5">
+                    <select id="single" class="form-control form-control-chosen" data-placeholder="Please select...">
+                        <option></option>
+                        {% for name in user_tbl %}
+                            <option>{{ name.empno }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+    {#    工号设置结束#}
+
+    {#    职位设置开始#}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">职位 <span class="caret"></span></button>
+                </div><!-- /btn-group -->
+
+                <div class="col-xs-12 col-md-4 mb-5">
+                    <select id="single" class="form-control form-control-chosen" data-placeholder="Please select...">
+                        <option></option>
+                        {% for name in user_tbl %}
+                            <option>{{ name.job }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+    {#    职位设置结束#}
+
+    {#    上级工号设置开始#}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">上级 <span class="caret"></span></button>
+                </div><!-- /btn-group -->
+
+                <div class="col-xs-12 col-md-4 mb-5">
+                    <select id="single" class="form-control form-control-chosen" data-placeholder="Please select...">
+                        <option></option>
+                        {% for name in user_tbl %}
+                            <option>{{ name.mgr }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+    {#    上级工号设置结束#}
+
+    {#    工资设置开始#}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle"
+                            aria-haspopup="true" aria-expanded="false">工资 <span class="caret"></span></button>
+                </div><!-- /btn-group -->
+
+                <div class="col-xs-12 col-md-4 mb-5">
+                    <select id="single" class="form-control form-control-chosen" data-placeholder="Please select...">
+                        <option></option>
+                        {% for name in user_tbl %}
+                            <option>{{ name.mgr }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+    {#    工资设置结束#}
+
+
+
+
+
+    <script src="../static/js/jquery-1.11.0.min.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script src="../static/js/chosen.jquery.js"></script>
+	<script type="text/javascript">
+		$('.form-control-chosen').chosen({
+		  allow_single_deselect: true,
+		  width: '100%'
+		});
+		$('.form-control-chosen-required').chosen({
+		  allow_single_deselect: false,
+		  width: '100%'
+		});
+		$('.form-control-chosen-search-threshold-100').chosen({
+		  allow_single_deselect: true,
+		  disable_search_threshold: 100,
+		  width: '100%'
+		});
+		$('.form-control-chosen-optgroup').chosen({
+		  width: '100%'
+		});
+
+		$(function() {
+		  $('[title="clickable_optgroup"]').addClass('chosen-container-optgroup-clickable');
+		});
+		$(document).on('click', '[title="clickable_optgroup"] .group-result', function() {
+		  var unselected = $(this).nextUntil('.group-result').not('.result-selected');
+		  if(unselected.length) {
+		    unselected.trigger('mouseup');
+		  } else {
+		    $(this).nextUntil('.group-result').each(function() {
+		      $('a.search-choice-close[data-option-array-index="' + $(this).data('option-array-index') + '"]').trigger('click');
+		    });
+		  }
+		});
+	</script>
+
+{% endblock %}
