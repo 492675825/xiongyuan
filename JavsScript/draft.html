@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="btn">
+        <span id='defult'>默认值</span>
+        <button id="b1">button</button>
+        <button>button</button>
+        <button>button</button>
+        <button>button</button>
+        <button>button</button>
+    </div>
+
+
+</body>
+<!-- <script src="js/alert.js"></script> -->
+
+<script src="js/alert.js"></script>
+<script>
+    $(function(){
+        //用on可以绑定多个事件
+        $('sapn').on({
+            mouseenter:function(){
+                $(this).css("backgroud","skyblue");
+            },
+            mouseover:function(){
+                $(this).css('backgroud','pink');
+            }
+        })
+    })
+</script>
+<script>
+
+</script>
+
+</html>
